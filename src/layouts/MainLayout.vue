@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header class="bg-green-8 text-white">
+    <q-header class="bg-green-3 text-white">
       <q-toolbar>
 
 
@@ -9,6 +9,7 @@
           Hourly
         </q-toolbar-title>
       </q-toolbar>
+
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>

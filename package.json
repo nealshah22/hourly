@@ -10,16 +10,22 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
-    "core-js": "^3.6.5",
-    "quasar": "^2.0.0"
+    "@aws-amplify/api-graphql": "^2.2.8",
+    "@aws-amplify/pubsub": "^4.1.11",
+    "@aws-amplify/ui-components": "^1.8.2",
+    "@aws-amplify/ui-vue": "^1.1.13",
+    "@quasar/extras": "^1.11.1",
+    "aws-amplify": "^4.3.1",
+    "core-js": "^3.18.1",
+    "graphql": "^15.6.0",
+    "quasar": "^2.1.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app": "^3.0.0",
-    "eslint": "^7.14.0",
+    "@babel/eslint-parser": "^7.15.7",
+    "@quasar/app": "^3.1.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-vue": "^7.0.0",
+    "eslint-plugin-vue": "^7.18.0",
     "eslint-webpack-plugin": "^2.4.0"
   },
   "browserslist": [

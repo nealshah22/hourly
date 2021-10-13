@@ -22,6 +22,7 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
+      "amplify"
     ],
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -68,7 +69,38 @@ module.exports = configure(function (ctx) {
       chainWebpack (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
+
+          chain.module
+             .rule('vue')
+             .use('vue-loader')
+             .tap(options => {
+               options.compilerOptions = {
+                 ...(options.compilerOptions || {}),
+                 isCustomElement: tag => tag.startsWith('amplify-')
+               };
+               return options;
+             });
+
       },
+
+
+extendWebpack(cfg) {
+  const mjs = ".mjs";
+  if (!Array.isArray(cfg.resolve.extensions)) {
+    cfg.resolve.extensions = [mjs];
+  } else if (cfg.resolve.extensions.indexOf(mjs) < 0) {
+    cfg.resolve.extensions.unshift(mjs);
+  }
+  cfg.module.rules.push({
+    test: /\.mjs$/,
+    include: /node_modules/,
+    resolve: {
+      fullySpecified: false
+    }
+  });
+},
+
+
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -93,7 +125,9 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Dialog'
+      ]
     },
 
     // animations: 'all', // --- includes all animations
@@ -211,6 +245,8 @@ module.exports = configure(function (ctx) {
       chainWebpackMain (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+
+
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

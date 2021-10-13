@@ -1,23 +1,29 @@
 <template>
   <q-page class = "q-pa-md">
+    <amplify-authenticator>
+     <amplify-sign-out>
+     </amplify-sign-out>
+<div class="q-py-sm">
+
 
     <!-- Example Group Card Member-->
-       <q-card flat bordered class="my-card bg-grey-1">
+       <q-card flat  class="my-card bg-ctmGrey">
+
              <q-card-section>
                <div class="row items-center no-wrap">
                  <div class="col">
-                   <div class="text-h6 text-weight-bolder" style="font-size: 20pt">
+                   <div class="text-h6 text-weight-bolder text-ctmSage" style="font-size: 20pt">
                      Example Group
                    </div>
-                   <div class="text-subtitle2">Member</div>
+                   <div class="text-subtitle2 text-ctmSage">Member</div>
                  </div>
 
                  <div class = "col-5">
 
-                     <div class="text-h4 text-weight-bold text-center"  style="font-size: 40pt">
+                     <div class="text-h4 text-weight-bold text-center text-ctmSage"  style="font-size: 40pt">
                        12
                      </div>
-                     <div class="text-subtitle2 text-center">
+                     <div class="text-subtitle2 text-center text-ctmSage">
                        hours
                      </div>
 
@@ -26,7 +32,7 @@
 
 
                  <div class="col-auto">
-                   <q-btn color="grey-7" round flat icon="more_vert">
+                   <q-btn color="ctmSage" round flat icon="more_vert">
                      <q-menu cover auto-close>
                        <q-list>
                          <q-item clickable>
@@ -49,32 +55,35 @@
              <q-separator />
 
              <q-card-actions>
-               <q-btn flat>Submit Hours</q-btn>
+               <q-btn flat color = "ctmSage">Submit Hours</q-btn>
                <q-btn flat></q-btn>
              </q-card-actions>
            </q-card>
+</div>
+<div class="q-py-sm">
+
 
     <!-- Example Group Card Owner-->
-       <q-card flat bordered class="my-card bg-grey-1">
+       <q-card flat  class="my-card bg-ctmGrey ">
              <q-card-section>
                <div class="row items-center no-wrap">
                  <div class="col">
-                   <div class="text-h6 text-weight-bolder" style="font-size: 20pt">
+                   <div class="text-h6 text-weight-bolder text-ctmSage" style="font-size: 20pt">
                      Example Group
                    </div>
-                   <div class="text-subtitle2">Owner</div>
+                   <div class="text-subtitle2 text-ctmSage">Owner</div>
                  </div>
                  <div class = "col-5">
-                   <div class="text-h4 text-weight-bold text-center"  style="font-size: 40pt">
-                     12
+                   <div class="text-h4 text-weight-bold text-center text-ctmSage"  style="font-size: 40pt">
+                     32
                    </div>
-                   <div class="text-subtitle2 text-center">
+                   <div class="text-subtitle2 text-center text-ctmSage">
                      hours
                    </div>
                   </div>
 
                  <div class="col-auto">
-                   <q-btn color="grey-7" round flat icon="more_vert">
+                   <q-btn color="ctmSage" round flat icon="more_vert">
                      <q-menu cover auto-close>
                        <q-list>
                          <q-item clickable>
@@ -96,85 +105,121 @@
              <q-separator />
 
              <q-card-actions>
-               <q-btn flat>Approve Hours</q-btn>
-               <q-btn flat>View Hour Totals</q-btn>
+               <q-btn flat color="ctmSage">Approve Hours</q-btn>
+               <q-btn flat color="ctmSage">View Hour Totals</q-btn>
              </q-card-actions>
            </q-card>
 
-
-  <!-- Toggle between join and create group -->
-     <q-btn-toggle
-       v-model="formTgl"
-       spread
-       no-caps
-       rounded
-       unelevated
-       toggle-color="green-5"
-       color="white"
-       text-color="black"
-       :options="[
-         {label: 'Join a Group', value: 'join'},
-         {label: 'Create a Group', value: 'create'}
-       ]"
-     />
+</div>
 
 
-<!-- create group form -->
-     <div class="column justify-center items-center homeform" >
-     <q-form v-if = "formTgl == 'create'">
-       <q-input color="green"  filled v-model="groupName" label="Group Name">
-         <template v-slot:prepend>
-         </template>
-       </q-input>
-     </q-form>
-
-<!-- join group form -->
-     <q-form v-else>
-       <q-input color="green"  filled v-model="jCode" label="Join Code">
-        <template v-slot:prepend>
-        </template>
-      </q-input>
-    </q-form>
-  </div>
 
   <!-- join/create expansion item -->
-<div class= "absolute-bottom-right q-pr-xl q-pb-xl">
+<div class= "absolute-bottom-right q-pr-lg q-pb-lg">
     <q-fab
     direction="up"
-    color="green"
-    text-color="white"
+    color= "ctmGrey"
+    text-color="ctmSage"
     icon="add"
     vertical-actions-align = "center">
-          <q-fab-action color="green"  text-color="white" @click="onClick" label="Create" />
-          <q-fab-action color="green"  text-color="white" @click="onClick" label="Join" />
+          <q-fab-action color="ctmGrey"  text-color="ctmSage" @click="create" label="Create" />
+          <q-fab-action color="ctmGrey"  text-color="ctmSage" @click="join" label="Join" />
       </q-fab>
 
 </div>
-
+</amplify-authenticator>
   </q-page>
 </template>
 
 <script>
+import { API, Auth } from 'aws-amplify';
+import { useQuasar } from 'quasar'
 import { defineComponent, ref } from 'vue';
+import CreateDialog from "src/components/CreateDialog.vue"
+import { listUsers } from '../graphql/queries';
+
+
 
 export default defineComponent({
   name: 'PageIndex',
   setup(){
+    const user = Auth.currentAuthenticatedUser().then(user =>
+    API.graphql({
+      query:`
+        query ListUsers(
+          $filter: ModelUserFilterInput
+          $limit: Int
+          $nextToken: String
+        ) {
+          listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+              id
+              email
+              fullname
+              grade
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+      `,
+      variables: {
+        filter: {
+          email: {
+            eq: user.attributes.email
+          }
+        }
+      }
+    }).then(resp => {
+      console.log(resp)
+    }))
+    const $q = useQuasar()
     const formTgl = ref('join')
     const secondModel = ref('one')
     const jCode = ref("")
     const groupName = ref("")
+
+    const create = () => {
+      $q.dialog({
+        component: CreateDialog
+       }).onOk(data => {
+         // console.log('>>>> OK, received', data)
+       })
+    }
+
+    const join = () => {
+      $q.dialog({
+        title: 'Join a Group',
+        message: 'Join Code:',
+        prompt: {
+          model: '',
+            isValid: val => val.length > 5,
+            type: 'text' // optional
+        },
+        cancel: true,
+        persistent: false
+      }).onOk(data => {
+        // console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    }
+
     return{
       fab1: ref(true),
       fab2: ref(true),
-      onClick () {
-        console.log('Clicked on a fab action')
-      },
+      create,
+      join,
       formTgl,
       jCode,
       groupName
     }
   }
+
+
 
 })
 </script>
@@ -184,4 +229,25 @@ export default defineComponent({
     width: 100%;
     height: 100%
   }
+  body{
+    background-color: #ffffff;
+  }
+
+// grey  custom color:
+.text-ctmGrey{
+  color: #a5d6a7;
+}
+.bg-ctmGrey {
+  background: #a5d6a7;
+}
+
+// sage custom color
+.text-ctmSage{
+  color: #ffffff;
+}
+.bg-ctmSage{
+  background:#ffffff;
+}
+
+
 </style>

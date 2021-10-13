@@ -1,0 +1,20 @@
+type Group @model
+  @key(name: "name", fields: ["name"])
+  @key(name:"byUser", fields: ["id", "name"])
+  {
+  id: ID!
+  name: String!
+  hours(userID: ID!): Int!
+  totalhours: Int!
+  members: [User!]! @connection(keyName: "byGroup", fields: ["id"])
+}
+type User @model
+  @key(name:"email", fields: ["email"])
+  @key(name:"byGroup", fields: ["id", "email"])
+  {
+  id: ID!
+  email: String!
+  fullname: String!
+  grade: Int!
+  groups: [Group!] @connection(keyName: "byUser", fields: ["id"])
+}

@@ -1,0 +1,54 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hourly-dev-143241-authRole",
+      "UnauthRoleArn": "arn:aws:iam::457954721821:role/amplify-hourly-dev-143241-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::457954721821:role/amplify-hourly-dev-143241-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-hourly-dev-143241-deployment",
+      "UnauthRoleName": "amplify-hourly-dev-143241-unauthRole",
+      "StackName": "amplify-hourly-dev-143241",
+      "StackId": "arn:aws:cloudformation:us-east-1:457954721821:stack/amplify-hourly-dev-143241/049b9e70-f3c0-11eb-b00e-0ad5dcc6785b",
+      "AmplifyAppId": "d1js30runclrmo"
+    },
+    "categories": {
+      "auth": {
+        "hourly68bd5507": {}
+      }
+    }
+  },
+  "hourly": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hourly-hourly-191550-authRole",
+      "UnauthRoleArn": "arn:aws:iam::457954721821:role/amplify-hourly-hourly-191550-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::457954721821:role/amplify-hourly-hourly-191550-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-hourly-hourly-191550-deployment",
+      "UnauthRoleName": "amplify-hourly-hourly-191550-unauthRole",
+      "StackName": "amplify-hourly-hourly-191550",
+      "StackId": "arn:aws:cloudformation:us-east-1:457954721821:stack/amplify-hourly-hourly-191550/de55c2a0-11c3-11ec-83fc-12732f42e421",
+      "AmplifyAppId": "d1js30runclrmo"
+    },
+    "categories": {
+      "function": {
+        "hourly9a9af20aCustomMessage": {
+          "REDIRECTURL": "",
+          "EMAILSUBJECT": "hourly confirmation",
+          "EMAILMESSAGE": "Please confirm your hourly account: ",
+          "deploymentBucketName": "amplify-hourly-hourly-191550-deployment",
+          "s3Key": "amplify-builds/hourly9a9af20aCustomMessage-3133575942396741336f-build.zip"
+        }
+      },
+      "auth": {
+        "hourly9a9af20a": {},
+        "hourly7fe78cd9": {},
+        "hourlya8a5a105": {
+          "userPoolId": "us-east-1_Hp7ojBbJZ",
+          "userPoolName": "hourlyUsers",
+          "webClientId": "4gfmuj7ch8n1f3b8kauqdc6nas",
+          "nativeClientId": "4gfmuj7ch8n1f3b8kauqdc6nas"
+        }
+      }
+    }
+  }
+}
